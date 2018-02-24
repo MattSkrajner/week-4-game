@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Crystal Collector</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" />
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+<!-- Here"s how the app works:
+The player will be shown a random number at the start of the game.
+When the player clicks on a crystal, it will add a specific amount of points to the player"s userNumber score. 
+Your game will hide this amount until the player clicks a crystal.
+When they do click one, update the player"s score counter.
+The player wins if their total score matches the random number from the beginning of the game.
+The player loses if their score goes above the random number.
+The game restarts whenever the player wins or loses.
+When the game begins again, the player should see a new random number. Also, all the crystals will have four new hidden values. Of course, the user"s score (and score counter) will reset to zero.
+The app should show the number of games the player wins and loses. To that end, do not refresh the page as a means to restart the game.
+The random number shown at the start of the game should be between 19 - 120.
+Each crystal should have a random hidden value between 1 - 12. -->
+
+</head>
+
+<body background="http://charleswoodfolio.com/content/images/uploads/Clash_of_the_Titans_-_cave_interior/titans_6.jpg">
+    <!-- Game Instructions -->
+    <div class="container">
+        <div class="jumbotron">
+            <h1><font color="white">Crystal Collector</font></h1>
+            <hr>
+            <p><font color="white">You will be given a random number at the start of the game.</font></p>
+            <p><font color="white">There are four cystals below. By clicking on a crystal you will add a specific amount of points to your total score.</font></p>
+            <p><font color="white">You win the game by matching your total score to a random number. You lose the game if your total score goes above the random number.</font></p>
+            <p><font color="white">The value of each crystal is hidden from you until you click on it.</font></p>
+            <p><font color="white">Each time the game starts, the game will change the values of each crystal.</font></p>
+            <hr>
+        </div>
+
+    <!-- Crystal buttons to click -->
+        <div class="card card-default" id= "cardStyle">
+                <div class= "card-body">
+                    <img src="assets/images/blue.png" class=CrystalButton id="blue"> 
+                    <img src="assets/images/green.png" class=CrystalButton id="green">
+                    <img src="assets/images/red.png" class=CrystalButton id= "red">
+                    <img src="assets/images/yellow.png" class=CrystalButton id= "yellow">
+                </div>
+        </div>
+        <hr>
+        <div class="card card-default" id= "cardStyle">
+                <div class= "card-body">
+                    <font color="white">
+                    <h4>Number to Guess: <span id= "number"></h4>
+                    <h4>Your number: <span id="Combined"></h4>
+                    </font>
+                </div>
+        </div>
+            <hr>
+            <div class="card card-default" id= "cardStyle">
+                <div class= "card-body">
+                    <h4>
+                    <font color="white">
+                    Wins: <span id= "numberWins"></span>
+                    <br>
+                    Losses: <span id= "numberLosses"></span>
+                    </font>
+                    </h4>
+                </div>
+            </div>
+    </div>
+
+<!-- Insert script below this line -->
+<script type="text/javascript">
+    
+// sets up variables
+var crystalNumbers = []
+var userNumber= 0;
+var wins= 0;
+var losses = 0;
+$("#numberWins").text(wins);
+$("#numberLosses").text(losses);
+
+//sets up random number user is trying to match
+$( document ).ready(function(){
+        var numberToGuess=Math.floor(Math.random()*101+19)
+        $("#number").text(numberToGuess);
+
+//sets up random numbers for each crystal
+function crystalButtonValues(){
+    for (var i = 0; i < 4; i++) {
+    var num = Math.floor(Math.random()*11+1);
+    crystalNumbers.push(num);
+    }
+}
+
+crystalButtonValues();
+
+//resets the game
+function reset(){
+        numberToGuess=Math.floor(Math.random()*101+19);
+        console.log(numberToGuess)
+        $("#number").text(numberToGuess);
+        crystalNumbers = [];
+        crystalButtonValues();
+        userNumber= 0;
+        $("#Combined").text(userNumber);
+        } 
+
+// updates wins and losses with alert and prints text to the page
+function winner(){
+    alert("You have won!");
+        wins++;	
+        $("#numberWins").text(wins);
+        reset();
+}
+
+function loser(){
+    alert ("You have lost!");
+        losses++;
+        $("#numberLosses").text(losses);
+        reset();
+}
+
+// Blue crystal button
+$("#blue").on ("click", function(){
+        userNumber = userNumber + crystalNumbers[0];
+        $("#Combined").text(userNumber);
+
+        if (userNumber == numberToGuess){
+            winner();
+        }
+        
+        else if ( userNumber > numberToGuess){
+            loser();
+        }
+        })
+
+// Green crystal button
+$("#green").on ("click", function(){
+        userNumber = userNumber + crystalNumbers[1];
+        $("#Combined").text(userNumber);	
+
+        if (userNumber == numberToGuess){
+            winner();
+            }
+        else if ( userNumber > numberToGuess){
+            loser();
+            }
+        })
+
+// Red crystal button
+$("#red").on ("click", function(){
+        userNumber = userNumber + crystalNumbers[2];
+        $("#Combined").text(userNumber);
+
+        if (userNumber == numberToGuess){
+            winner();
+        }
+        else if ( userNumber > numberToGuess){
+            loser();
+        }
+    })
+
+// Yellow crystal button
+$("#yellow").on ("click", function(){
+        userNumber = userNumber + crystalNumbers[3];
+        $("#Combined").text(userNumber);	
+
+        if (userNumber == numberToGuess){
+            winner();
+        }
+        else if ( userNumber > numberToGuess){
+            loser();
+        }
+    });
+});
+
+</script>
+</body>
+</html>
